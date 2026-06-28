@@ -1,0 +1,14 @@
+{
+  "name": "tpi-clinica-medica",
+  "version": "1.0.0",
+  "description": "App de consola - ABM, backup y restore sobre MongoDB Atlas (clinica_medica)",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.8.0"
+  }
+}
