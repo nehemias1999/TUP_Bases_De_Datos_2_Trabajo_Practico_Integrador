@@ -1,10 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat app/package.json)",
-      "Bash(ls README.md app/README.md)",
+      "Bash(node --check src/app.js)",
       "Bash(node --check src/lib.js)",
-      "Bash(node --check src/app.js)"
+      "Bash(node --check src/colecciones.js)",
+      "Bash(node -e \"import\\('./src/colecciones.js'\\).then\\(m=>console.log\\('especialidades cargado:', m.especialidades.nombre\\)\\)\")"
     ]
   }
 }

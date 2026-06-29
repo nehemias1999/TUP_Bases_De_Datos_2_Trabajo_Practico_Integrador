@@ -122,7 +122,8 @@ export async function bajaLogica(coleccion, id) {
 // Backup y restore (mongodump / mongorestore)
 // Requiere las MongoDB Database Tools en el PATH.
 // ============================================================
-const DIR_RESGUARDOS = 'resguardos_tpi'; // ruta relativa, como pide la consigna
+const DIR_RESGUARDOS = 'resguardos_tpi';        // ruta relativa, como pide la consigna
+const COLECCION_BACKUP = 'especialidades';      // solo se resguarda esta colección
 
 // Marca de tiempo para el nombre del backup: YYYY-MM-DD_HHmmss.
 function marcaTiempo() {
@@ -141,13 +142,13 @@ function ejecutar(comando, args) {
   return r.status === 0;
 }
 
-// CREATE backup: crea resguardos_tpi/<DB>_<fecha> con el dump de la base.
+// CREATE backup: crea resguardos_tpi/<DB>_<fecha> con el dump de la colección especialidades.
 export function crearBackup() {
   if (!existsSync(DIR_RESGUARDOS)) mkdirSync(DIR_RESGUARDOS, { recursive: true });
   const nombre = `${DB_NAME}_${marcaTiempo()}`;
   const destino = join(DIR_RESGUARDOS, nombre);
-  console.log(`\nGenerando backup en "${destino}"...`);
-  const ok = ejecutar('mongodump', ['--uri', URI, '--db', DB_NAME, '--out', destino]);
+  console.log(`\nGenerando backup de "${COLECCION_BACKUP}" en "${destino}"...`);
+  const ok = ejecutar('mongodump', ['--uri', URI, '--db', DB_NAME, '--collection', COLECCION_BACKUP, '--out', destino]);
   console.log(ok ? `Backup creado: ${nombre}` : 'El backup falló.');
 }
 
@@ -161,6 +162,8 @@ export function listarBackups() {
 }
 
 // RESTORE: muestra los backups, se elige uno y se restaura con --drop.
+// El dump contiene solo la colección especialidades, así que únicamente se
+// reemplaza esa colección.
 export async function restaurar() {
   const backups = listarBackups();
   if (backups.length === 0) {

@@ -1,4 +1,5 @@
 app/node_modules/
-app/.env
 app/resguardos_tpi/
-.claude/
+app/package-lock.json
+app/package.json
+app/.env

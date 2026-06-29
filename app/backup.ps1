@@ -1,6 +1,7 @@
 # Script CLI de resguardo - TPI Parte 2 (Bloque 2).
 # Crea la carpeta resguardos_tpi con una subcarpeta con la fecha actual
-# y ejecuta mongodump contra el cluster de Atlas. Usa rutas relativas.
+# y ejecuta mongodump de la coleccion "especialidades" contra el cluster de
+# Atlas. Usa rutas relativas.
 #
 # Requisitos: MongoDB Database Tools (mongodump) en el PATH.
 # Ejecutar desde la carpeta "app":  ./backup.ps1
@@ -24,8 +25,8 @@ if (-not (Test-Path $base)) { New-Item -ItemType Directory -Path $base | Out-Nul
 
 Write-Host "Generando backup en '$destino'..."
 
-# --- mongodump remoto a Atlas ---
-mongodump --uri "$uri" --db $dbName --out "$destino"
+# --- mongodump remoto a Atlas (solo la coleccion especialidades) ---
+mongodump --uri "$uri" --db $dbName --collection especialidades --out "$destino"
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Backup completado correctamente."

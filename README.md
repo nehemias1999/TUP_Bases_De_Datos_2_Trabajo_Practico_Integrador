@@ -2,8 +2,8 @@
 
 Aplicación de consola en Node.js que se conecta a MongoDB Atlas y permite:
 
-- **ABM** (Alta, Baja lógica, Modificación y Listado) de las 5 colecciones de `clinica_medica`.
-- **Backup** y **Restore** de la base con `mongodump` / `mongorestore`.
+- **ABM** (Alta, Baja lógica, Modificación y Listado) de la colección `especialidades` de `clinica_medica`.
+- **Backup** y **Restore** de la colección `especialidades` con `mongodump` / `mongorestore`.
 
 ## Requisitos
 
@@ -43,10 +43,11 @@ node src/app.js
 
 ### Menú
 
-- **1 a 5:** colecciones (`especialidades`, `pacientes`, `medicos`, `turnos`, `historiales_medicos`).
-  Cada una abre el submenú: Alta · Listar activos · Modificar · Baja lógica.
-- **6 Backup:** genera `resguardos_tpi/clinica_medica_<fecha>` con el dump de la base.
-- **7 Restore:** lista los backups guardados y restaura el que se elija (`--drop`).
+El menú opera sobre la colección `especialidades`:
+
+- **1 Alta** · **2 Listar (activos)** · **3 Modificar** · **4 Baja (lógica)**.
+- **5 Backup:** genera `resguardos_tpi/clinica_medica_<fecha>` con el dump de la colección `especialidades`.
+- **6 Restore:** lista los backups guardados y restaura el que se elija (`--drop`).
 
 > La lectura siempre filtra `activo: true`, respetando la baja lógica de la Parte 1.
 
@@ -59,22 +60,20 @@ Desde la carpeta `app/`:
 ./backup.ps1
 ```
 
-Crea `resguardos_tpi/clinica_medica_<fecha>` usando rutas relativas y `mongodump` contra Atlas.
+Crea `resguardos_tpi/clinica_medica_<fecha>` con el dump de la colección `especialidades`, usando rutas relativas y `mongodump` contra Atlas.
 
 ## Estructura
 
 ```
 app/
   src/
-    db.js           # conexión a Atlas
-    prompts.js      # helpers de consola
-    colecciones.js  # estructura de las 5 colecciones
-    crud.js         # CRUD genérico (CREATE / READ / UPDATE / baja lógica)
-    abm.js          # formularios de alta y modificación
-    backup.js       # backup y restore
-    app.js          # menú principal
+    lib.js          # infraestructura: conexión a Atlas, helpers de consola,
+                    #   CRUD genérico (Bloque 1) y backup/restore (Bloque 2)
+    app.js          # ABM de especialidades y menú principal
   backup.ps1        # script CLI de backup
   .env / .env.example
-  INFORME_RTO_RPO.md
-  CONCLUSION.md
 ```
+
+> El código se organiza en dos módulos: `lib.js` reúne la conexión, los helpers
+> de consola, el CRUD genérico y el backup/restore; y `app.js` implementa el ABM
+> de `especialidades` y el menú.
