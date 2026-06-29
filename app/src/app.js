@@ -255,7 +255,11 @@ async function gestionarColeccion(descriptor) {
 async function menuPrincipal() {
   while (true) {
     console.log('\n========== CLÍNICA MÉDICA ==========');
-    COLECCIONES.forEach((c, i) => console.log(`  ${i + 1}. ${c.etiqueta}`));
+    console.log('  1. Especialidades');
+    console.log('  2. Pacientes');
+    console.log('  3. Médicos');
+    console.log('  4. Turnos');
+    console.log('  5. Historiales médicos');
     console.log('  6. Backup');
     console.log('  7. Restore');
     console.log('  0. Salir');
